@@ -326,7 +326,7 @@ def series_workspace_page() -> None:
     if settings.llm_provider != "gemini":
         st.error("This workspace currently supports the Gemini provider only.")
     if not api_key_configured:
-        st.warning("Configure GEMINI_API_KEY in the local environment before starting analysis.")
+        st.warning("Configure GEMINI_API_KEY in .env/the local environment or in the deployed Streamlit app's Secrets settings before starting analysis.")
     if not model_id:
         st.warning("Enter a Gemini model ID before starting analysis.")
     if st.button("Analyze series and discover promo candidates", type="primary", disabled=not can_run,

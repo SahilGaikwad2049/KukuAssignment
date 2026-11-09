@@ -100,7 +100,7 @@ def test_demo_artifacts_are_labeled_and_not_human_approved(tmp_path):
 def test_confidential_and_generated_data_paths_remain_gitignored():
     root = Path(__file__).resolve().parents[1]
     ignored = (root / ".gitignore").read_text(encoding="utf-8")
-    for path in ("data/input/", "data/processed/", "data/outputs/", "data/cache/", "submission/raw_outputs/"):
+    for path in ("data/input/", "data/processed/", "data/outputs/", "data/cache/", "submission/raw_outputs/", ".streamlit/secrets.toml"):
         assert path in ignored
 
 
@@ -248,4 +248,11 @@ def test_page_eyebrow_has_legible_high_contrast_accent():
     assert "padding-top: 4rem" in CSS
     assert "padding:3.5rem 1rem 3rem" in CSS
     assert "[data-testid=\"stHeader\"] { background: var(--ps-bg); }" in CSS
+
+
+def test_disabled_primary_action_is_visibly_muted():
+    assert '[data-testid="stButton"] button[kind="primary"]:disabled' in CSS
+    assert 'background:#34343b !important' in CSS
+    assert 'cursor:not-allowed' in CSS
+    assert 'transform:none !important' in CSS
 

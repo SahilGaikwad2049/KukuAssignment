@@ -38,7 +38,7 @@ class GeminiClient:
         if settings.llm_provider != "gemini":
             issues.append("LLM_PROVIDER must be 'gemini'")
         if not self.api_key or self.api_key.lower() in {"your_api_key_here", "your_gemini_api_key", "changeme", "replace_me"}:
-            issues.append("set GEMINI_API_KEY in .env or the environment")
+            issues.append("set GEMINI_API_KEY in .env, the environment, or Streamlit app Secrets")
         if not self.model or self.model.lower() in {
             "your_selected_free_tier_model", "your_model_name", "model_name", "your_gemini_model",
         }:

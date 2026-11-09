@@ -31,6 +31,15 @@ h1, h2, h3 { letter-spacing: -.02em; }
 [data-testid="stButton"] button, [data-testid="stDownloadButton"] button { min-height: 42px; border-radius: 10px; border: 1px solid var(--ps-border); transition: border-color .16s ease, transform .16s ease, background .16s ease; }
 [data-testid="stButton"] button:hover, [data-testid="stDownloadButton"] button:hover { border-color: var(--ps-red-soft); transform: translateY(-1px); }
 [data-testid="stButton"] button[kind="primary"] { background: var(--ps-red); border-color: var(--ps-red); color: white; }
+[data-testid="stButton"] button[kind="primary"]:disabled,
+[data-testid="stButton"] button[kind="primary"][aria-disabled="true"] {
+  background:#34343b !important; border-color:#45454e !important; color:#9999a2 !important;
+  opacity:.78; cursor:not-allowed; transform:none !important; box-shadow:none !important;
+}
+[data-testid="stButton"] button[kind="primary"]:disabled:hover,
+[data-testid="stButton"] button[kind="primary"][aria-disabled="true"]:hover {
+  background:#34343b !important; border-color:#45454e !important; transform:none !important;
+}
 .ps-brand { display:flex; align-items:center; gap:.7rem; margin:.3rem 0 1.6rem; }
 .ps-demo-banner { max-width:1440px; margin:0 auto .85rem; padding:.8rem 1rem; border:1px solid #a83a40; border-radius:12px; color:#fff; background:linear-gradient(90deg,#4a1418,#251014); font-size:.92rem; line-height:1.45; }
 .ps-mark { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--ps-red); color:#fff; font-weight:900; letter-spacing:-.08em; }

@@ -23,6 +23,7 @@ data/workspaces/
 
 # VS Code
 .vscode/
+.streamlit/secrets.toml
 # Cached LLM responses and derived screenplay content
 data/cache/
 submission/raw_outputs/

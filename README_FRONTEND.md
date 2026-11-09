@@ -21,6 +21,22 @@ Streamlit prints a local URL, usually `http://localhost:8501`. Open that URL in 
 
 For hosted deployment, add the repository to Streamlit Community Cloud (or the chosen Streamlit host) and set the app entry point to `app.py`. Do not upload confidential files or configure an API key just to display the demo. Browsing the demo makes no LLM requests.
 
+### Configure Gemini only when you want to run analysis
+
+Create your own key in [Google AI Studio's API Keys page](https://aistudio.google.com/app/apikey). Keep it private and, where available, restrict it to the Gemini API.
+
+- **Local run:** put `GEMINI_API_KEY=your_private_key` and `GEMINI_MODEL=your_supported_model_id` in the ignored project `.env` file. Restart Streamlit after saving it.
+- **Streamlit-hosted run:** open the app's **Settings → Secrets** and add TOML entries:
+
+  ```toml
+  GEMINI_API_KEY = "your_private_key"
+  GEMINI_MODEL = "your_supported_model_id"
+  ```
+
+  Save the secret settings and restart/reboot the app if prompted. PromoScout reads these secrets server-side through `st.secrets`; it never displays the key. `.streamlit/secrets.toml` is ignored locally and must never be committed.
+
+The key is tied to your Google project and its quota/billing configuration. Review the current [Gemini API key guidance](https://ai.google.dev/gemini-api/docs/api-key) before using it. Never paste the key into chat, a screenplay, source code, or a public issue. Analysis still requires the explicit consent checkbox in Series Workspace.
+
 The navigation has two groups:
 
 - **Workspace:** Overview, Episode Explorer, Candidate Review, Rankings, Exports.
