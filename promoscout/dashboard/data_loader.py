@@ -33,6 +33,30 @@ DEFAULT_PATHS = {
     "final_rankings_csv": PROJECT_ROOT / "data/outputs/final_rankings.csv",
     "final_ranking_report": PROJECT_ROOT / "data/outputs/final_ranking_report.md",
 }
+DEMO_DIR = PROJECT_ROOT / "data/demo"
+DEMO_PATHS = {
+    "episodes": DEMO_DIR / "parsed_all_episodes.json",
+    "analysis": DEMO_DIR / "episode_analysis.json",
+    "discoveries": DEMO_DIR / "event_discoveries.json",
+    "semantic_candidates": DEMO_DIR / "semantic_candidates.json",
+    "heuristic_candidates": DEMO_DIR / "continuous_candidates.json",
+    "validation": DEMO_DIR / "pilot_validation.json",
+    "validation_markdown": DEMO_DIR / "pilot_validation.md",
+    "review_decisions": DEMO_DIR / "review_decisions.json",
+    "blind_viewer": DEMO_DIR / "blind_viewer_evaluations.json",
+    "blind_viewer_pilot_report": DEMO_DIR / "blind_viewer_pilot_report.json",
+    "blind_viewer_pilot_report_markdown": DEMO_DIR / "blind_viewer_pilot_report.md",
+    "blind_viewer_pilot_selection": DEMO_DIR / "blind_viewer_pilot_selection.json",
+    "discovery_comparison": DEMO_DIR / "discovery_comparison.json",
+    "discovery_comparison_markdown": DEMO_DIR / "discovery_comparison.md",
+    "series_analysis": DEMO_DIR / "series_analysis.json",
+    "series_analysis_markdown": DEMO_DIR / "series_analysis.md",
+    "composite_candidates": DEMO_DIR / "composite_candidates.json",
+    "final_rankings": DEMO_DIR / "final_rankings.json",
+    "final_rankings_csv": DEMO_DIR / "final_rankings.csv",
+    "final_ranking_report": DEMO_DIR / "final_ranking_report.md",
+    "demo_candidates": DEMO_DIR / "demo_candidates.json",
+}
 
 
 @st.cache_data(show_spinner=False, ttl=8)
@@ -99,14 +123,18 @@ def normalize_candidates(payload: Any, source: str) -> tuple[list[dict], list[st
 
 
 def load_dashboard_data(paths: dict[str, str | Path] | None = None) -> dict:
-    """Load all dashboard files, validating screenplay episodes independently."""
+    """Load local project data, falling back to labelled synthetic demo data."""
     resolved = {key: Path(value) for key, value in DEFAULT_PATHS.items()}
     if paths:
         resolved.update({key: Path(value) for key, value in paths.items()})
-    files = {
+
+    def read_files(file_paths):
+        return {
         key: (read_text_file(path) if key in {"validation_markdown", "blind_viewer_pilot_report_markdown", "discovery_comparison_markdown", "series_analysis_markdown", "final_rankings_csv", "final_ranking_report"} else read_json_file(path))
-        for key, path in resolved.items()
-    }
+            for key, path in file_paths.items()
+        }
+
+    files = read_files(resolved)
     episodes, episode_errors = [], []
     raw_episodes = files["episodes"]["data"]
     if raw_episodes is not None:
@@ -119,6 +147,21 @@ def load_dashboard_data(paths: dict[str, str | Path] | None = None) -> dict:
                 except (ValidationError, TypeError) as exc:
                     episode_errors.append(f"Episode row {index + 1} is invalid: {exc}")
 
+    demo_mode = raw_episodes is None or raw_episodes == []
+    if demo_mode:
+        # Keep real mode all-or-nothing: never mix a synthetic dataset with
+        # partial local output artifacts when the source screenplay is absent.
+        resolved = {key: Path(value) for key, value in DEMO_PATHS.items()}
+        files = read_files(resolved)
+        episodes, episode_errors = [], []
+        raw_episodes = files["episodes"]["data"]
+        if isinstance(raw_episodes, list):
+            for index, row in enumerate(raw_episodes):
+                try:
+                    episodes.append(ParsedEpisode.model_validate(row))
+                except (ValidationError, TypeError) as exc:
+                    episode_errors.append(f"Demo episode row {index + 1} is invalid: {exc}")
+
     analysis_payload = files["analysis"]["data"]
     analysis = analysis_payload if isinstance(analysis_payload, dict) else {}
     discoveries_payload = files["discoveries"]["data"]
@@ -130,6 +173,11 @@ def load_dashboard_data(paths: dict[str, str | Path] | None = None) -> dict:
     if not isinstance(composite, list):
         composite = []
     composite = [dict(row) for row in composite if isinstance(row, dict)]
+    demo_payload = files.get("demo_candidates", {}).get("data")
+    demo_candidates = demo_payload.get("candidates", []) if isinstance(demo_payload, dict) else []
+    if not isinstance(demo_candidates, list):
+        demo_candidates = []
+    demo_candidates = [dict(row, source="demo", synthetic=True) for row in demo_candidates if isinstance(row, dict)]
     blind_payload = files["blind_viewer"]["data"]
     blind_viewer = blind_payload.get("evaluations", {}) if isinstance(blind_payload, dict) else {}
     if not isinstance(blind_viewer, dict):
@@ -137,6 +185,9 @@ def load_dashboard_data(paths: dict[str, str | Path] | None = None) -> dict:
     return {
         "paths": resolved,
         "files": files,
+        "data_mode": "demo" if demo_mode else "local",
+        "demo_mode": demo_mode,
+        "demo_candidates": demo_candidates,
         "episodes": episodes,
         "episode_errors": episode_errors,
         "analysis": analysis,

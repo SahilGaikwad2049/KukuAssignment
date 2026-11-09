@@ -1,0 +1,239 @@
+[
+  {
+    "episode_number": 1,
+    "logline": "Two caretakers investigate a lighthouse that shines without power.",
+    "continuity_notes": "Synthetic demo continuity note.",
+    "source_file": "demo_episode_01.txt",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "heading": "EXT. OLD LIGHTHOUSE — DUSK",
+        "start_timestamp": "00:00:00.00",
+        "end_timestamp": "00:00:30.00",
+        "start_seconds": 0.0,
+        "end_seconds": 30.0,
+        "events": [
+          {
+            "event_id": "DEMO_EP001_EV001",
+            "event_type": "camera",
+            "label": "Camera",
+            "speaker": null,
+            "delivery": null,
+            "start_timestamp": "00:00:01.00",
+            "end_timestamp": "00:00:03.00",
+            "start_seconds": 1.0,
+            "end_seconds": 3.0,
+            "content": "A lighthouse beacon blinks once beneath a clear afternoon sky.",
+            "raw_block": "A lighthouse beacon blinks once beneath a clear afternoon sky.",
+            "source_line_start": 3,
+            "source_line_end": 4
+          },
+          {
+            "event_id": "DEMO_EP001_EV002",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "MIRA",
+            "delivery": "measured",
+            "start_timestamp": "00:00:07.00",
+            "end_timestamp": "00:00:10.00",
+            "start_seconds": 7.0,
+            "end_seconds": 10.0,
+            "content": "The power line is cut. That light should be dark.",
+            "raw_block": "The power line is cut. That light should be dark.",
+            "source_line_start": 6,
+            "source_line_end": 7
+          },
+          {
+            "event_id": "DEMO_EP001_EV003",
+            "event_type": "action",
+            "label": "Action",
+            "speaker": "JUN",
+            "delivery": null,
+            "start_timestamp": "00:00:15.00",
+            "end_timestamp": "00:00:18.00",
+            "start_seconds": 15.0,
+            "end_seconds": 18.0,
+            "content": "Jun lifts a brass key from the dry sand.",
+            "raw_block": "Jun lifts a brass key from the dry sand.",
+            "source_line_start": 9,
+            "source_line_end": 10
+          },
+          {
+            "event_id": "DEMO_EP001_EV004",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "JUN",
+            "delivery": "uneasy",
+            "start_timestamp": "00:00:25.00",
+            "end_timestamp": "00:00:29.00",
+            "start_seconds": 25.0,
+            "end_seconds": 29.0,
+            "content": "Then who wound the clock?",
+            "raw_block": "Then who wound the clock?",
+            "source_line_start": 12,
+            "source_line_end": 13
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "episode_number": 2,
+    "logline": "A strange map and a bell suggest the tower is responding to someone.",
+    "continuity_notes": "Synthetic demo continuity note.",
+    "source_file": "demo_episode_02.txt",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "heading": "EXT. OLD LIGHTHOUSE — DUSK",
+        "start_timestamp": "00:00:00.00",
+        "end_timestamp": "00:00:30.00",
+        "start_seconds": 0.0,
+        "end_seconds": 30.0,
+        "events": [
+          {
+            "event_id": "DEMO_EP002_EV001",
+            "event_type": "action",
+            "label": "Action",
+            "speaker": "MIRA",
+            "delivery": null,
+            "start_timestamp": "00:00:02.00",
+            "end_timestamp": "00:00:05.00",
+            "start_seconds": 2.0,
+            "end_seconds": 5.0,
+            "content": "Mira turns the brass key; a hidden drawer slides open.",
+            "raw_block": "Mira turns the brass key; a hidden drawer slides open.",
+            "source_line_start": 3,
+            "source_line_end": 4
+          },
+          {
+            "event_id": "DEMO_EP002_EV002",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "MIRA",
+            "delivery": "surprised",
+            "start_timestamp": "00:00:09.00",
+            "end_timestamp": "00:00:13.00",
+            "start_seconds": 9.0,
+            "end_seconds": 13.0,
+            "content": "This map is dated tomorrow.",
+            "raw_block": "This map is dated tomorrow.",
+            "source_line_start": 6,
+            "source_line_end": 7
+          },
+          {
+            "event_id": "DEMO_EP002_EV003",
+            "event_type": "sound_fx",
+            "label": "metallic chime",
+            "speaker": null,
+            "delivery": null,
+            "start_timestamp": "00:00:18.00",
+            "end_timestamp": "00:00:20.00",
+            "start_seconds": 18.0,
+            "end_seconds": 20.0,
+            "content": "A single bell rings from the empty tower.",
+            "raw_block": "A single bell rings from the empty tower.",
+            "source_line_start": 9,
+            "source_line_end": 10
+          },
+          {
+            "event_id": "DEMO_EP002_EV004",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "JUN",
+            "delivery": "urgent",
+            "start_timestamp": "00:00:27.00",
+            "end_timestamp": "00:00:30.00",
+            "start_seconds": 27.0,
+            "end_seconds": 30.0,
+            "content": "Someone is already inside.",
+            "raw_block": "Someone is already inside.",
+            "source_line_start": 12,
+            "source_line_end": 13
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "episode_number": 3,
+    "logline": "Fresh footprints lead the caretakers to a door that should be sealed.",
+    "continuity_notes": "Synthetic demo continuity note.",
+    "source_file": "demo_episode_03.txt",
+    "scenes": [
+      {
+        "scene_number": 1,
+        "heading": "EXT. OLD LIGHTHOUSE — DUSK",
+        "start_timestamp": "00:00:00.00",
+        "end_timestamp": "00:00:30.00",
+        "start_seconds": 0.0,
+        "end_seconds": 30.0,
+        "events": [
+          {
+            "event_id": "DEMO_EP003_EV001",
+            "event_type": "camera",
+            "label": "Camera",
+            "speaker": null,
+            "delivery": null,
+            "start_timestamp": "00:00:01.00",
+            "end_timestamp": "00:00:03.00",
+            "start_seconds": 1.0,
+            "end_seconds": 3.0,
+            "content": "A warm light appears in the lighthouse window.",
+            "raw_block": "A warm light appears in the lighthouse window.",
+            "source_line_start": 3,
+            "source_line_end": 4
+          },
+          {
+            "event_id": "DEMO_EP003_EV002",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "JUN",
+            "delivery": "quiet",
+            "start_timestamp": "00:00:08.00",
+            "end_timestamp": "00:00:12.00",
+            "start_seconds": 8.0,
+            "end_seconds": 12.0,
+            "content": "The keeper left this place twenty years ago.",
+            "raw_block": "The keeper left this place twenty years ago.",
+            "source_line_start": 6,
+            "source_line_end": 7
+          },
+          {
+            "event_id": "DEMO_EP003_EV003",
+            "event_type": "action",
+            "label": "Action",
+            "speaker": "MIRA",
+            "delivery": null,
+            "start_timestamp": "00:00:17.00",
+            "end_timestamp": "00:00:20.00",
+            "start_seconds": 17.0,
+            "end_seconds": 20.0,
+            "content": "Mira finds fresh footprints leading toward the locked door.",
+            "raw_block": "Mira finds fresh footprints leading toward the locked door.",
+            "source_line_start": 9,
+            "source_line_end": 10
+          },
+          {
+            "event_id": "DEMO_EP003_EV004",
+            "event_type": "dialogue",
+            "label": "Dialogue",
+            "speaker": "MIRA",
+            "delivery": "tense",
+            "start_timestamp": "00:00:26.00",
+            "end_timestamp": "00:00:30.00",
+            "start_seconds": 26.0,
+            "end_seconds": 30.0,
+            "content": "The prints stop here.",
+            "raw_block": "The prints stop here.",
+            "source_line_start": 12,
+            "source_line_end": 13
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  }
+]

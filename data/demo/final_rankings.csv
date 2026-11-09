@@ -1,0 +1,4 @@
+rank,candidate_id,source_type,weighted_score,synthetic_demo
+1,DEMO_EP001_PROMO_001,synthetic demo,80,true
+2,DEMO_EP002_PROMO_001,synthetic demo,80,true
+3,DEMO_EP003_PROMO_001,synthetic demo,80,true

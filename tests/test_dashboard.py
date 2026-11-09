@@ -39,10 +39,100 @@ def test_dashboard_data_loads_valid_episode_and_empty_states(tmp_path):
     paths = {key: tmp_path / f"{key}.json" for key in keys}
     paths["episodes"] = episodes_file
     data = load_dashboard_data(paths)
+    assert data["data_mode"] == "local"
+    assert data["demo_mode"] is False
     assert len(data["episodes"]) == 1
     assert data["semantic_candidates"] == []
     assert data["composite_candidates"] == []
     assert not data["files"]["semantic_candidates"]["exists"]
+
+
+def test_local_screenplay_data_takes_precedence_over_demo(tmp_path):
+    episode = ParsedEpisode(episode_number=77, source_file="local-test.txt", scenes=[Scene(scene_number=1)])
+    source = tmp_path / "episodes.json"
+    source.write_text(json.dumps([episode.model_dump(mode="json")]), encoding="utf-8")
+
+    data = load_dashboard_data({"episodes": source})
+
+    assert data["data_mode"] == "local"
+    assert [item.episode_number for item in data["episodes"]] == [77]
+    assert data["demo_candidates"] == []
+
+
+def test_missing_local_data_automatically_loads_synthetic_demo(tmp_path):
+    data = load_dashboard_data({"episodes": tmp_path / "missing-parsed.json"})
+
+    assert data["data_mode"] == "demo"
+    assert data["demo_mode"] is True
+    assert len(data["episodes"]) == 3
+    assert sum(len(episode.events) for episode in data["episodes"]) == 12
+    assert all(event.event_id.startswith("DEMO_") for episode in data["episodes"] for event in episode.events)
+
+
+def test_demo_banner_contains_required_warning():
+    from promoscout.dashboard.components import render_demo_banner
+
+    class Capture:
+        value = ""
+
+        def markdown(self, value, **kwargs):
+            self.value = value
+
+    capture = Capture()
+    render_demo_banner(capture)
+    assert "DEMO MODE — Illustrative synthetic data. Not actual Kuku screenplay results." in capture.value
+
+
+def test_demo_artifacts_are_labeled_and_not_human_approved(tmp_path):
+    data = load_dashboard_data({"episodes": tmp_path / "missing-parsed.json"})
+
+    assert len(data["demo_candidates"]) == 3
+    assert all(row["source"] == "demo" and row["synthetic"] for row in data["demo_candidates"])
+    assert all(result["synthetic_demo"] for result in data["blind_viewer_evaluations"].values())
+    assert len(data["composite_candidates"]) == 1
+    assert data["composite_candidates"][0]["candidate_origin"] == "synthetic"
+    assert data["files"]["review_decisions"]["data"]["decisions"] == {}
+    assert all(row["human_decision"] == "pending (demo)" for row in data["final_rankings"]["leaderboards"]["combined"])
+    assert data["semantic_candidates"] == []
+    assert data["heuristic_candidates"] == []
+
+
+def test_confidential_and_generated_data_paths_remain_gitignored():
+    root = Path(__file__).resolve().parents[1]
+    ignored = (root / ".gitignore").read_text(encoding="utf-8")
+    for path in ("data/input/", "data/processed/", "data/outputs/", "data/cache/", "submission/raw_outputs/"):
+        assert path in ignored
+
+
+def test_demo_banner_and_all_pages_render_when_real_data_is_missing(tmp_path):
+    import promoscout.dashboard.data_loader as loader
+
+    original_paths = loader.DEFAULT_PATHS
+    missing_paths = {key: str(tmp_path / f"missing-{key}.json") for key in [
+        "episodes", "analysis", "discoveries", "semantic_candidates", "heuristic_candidates",
+        "validation", "validation_markdown", "review_decisions", "blind_viewer",
+        "blind_viewer_pilot_report", "blind_viewer_pilot_report_markdown",
+        "blind_viewer_pilot_selection", "discovery_comparison", "discovery_comparison_markdown",
+        "series_analysis", "series_analysis_markdown", "composite_candidates",
+        "final_rankings", "final_rankings_csv", "final_ranking_report",
+    ]}
+    app_script = tmp_path / "demo_app.py"
+    app_script.write_text(
+        "from pathlib import Path\nimport promoscout.dashboard.data_loader as loader\n"
+        f"loader.DEFAULT_PATHS = {missing_paths!r}\n"
+        "import app\napp.main()\n",
+        encoding="utf-8",
+    )
+    try:
+        app = AppTest.from_file(str(app_script), default_timeout=30).run()
+        assert len(app.exception) == 0
+        assert any("DEMO MODE — Illustrative synthetic data. Not actual Kuku screenplay results." in item.value for item in app.markdown)
+        for page_hash, _page in list(app._registered_pages.items()):
+            app._page_hash = page_hash
+            app.run()
+            assert len(app.exception) == 0
+    finally:
+        loader.DEFAULT_PATHS = original_paths
 
 
 def test_dashboard_loads_pilot_report_and_selection_when_present(tmp_path):

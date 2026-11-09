@@ -32,6 +32,7 @@ h1, h2, h3 { letter-spacing: -.02em; }
 [data-testid="stButton"] button:hover, [data-testid="stDownloadButton"] button:hover { border-color: var(--ps-red-soft); transform: translateY(-1px); }
 [data-testid="stButton"] button[kind="primary"] { background: var(--ps-red); border-color: var(--ps-red); color: white; }
 .ps-brand { display:flex; align-items:center; gap:.7rem; margin:.3rem 0 1.6rem; }
+.ps-demo-banner { max-width:1440px; margin:0 auto .85rem; padding:.8rem 1rem; border:1px solid #a83a40; border-radius:12px; color:#fff; background:linear-gradient(90deg,#4a1418,#251014); font-size:.92rem; line-height:1.45; }
 .ps-mark { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:10px; background:var(--ps-red); color:#fff; font-weight:900; letter-spacing:-.08em; }
 .ps-wordmark { font-weight:800; letter-spacing:-.04em; color:var(--ps-text); font-size:1.12rem; }
 .ps-wordmark small { display:block; color:var(--ps-muted); letter-spacing:.12em; text-transform:uppercase; font-size:.58rem; font-weight:600; margin-top:1px; }
@@ -81,6 +82,7 @@ h1, h2, h3 { letter-spacing: -.02em; }
 }
 @media(max-width:760px) {
   .block-container { padding:3.5rem 1rem 3rem; }
+  .ps-demo-banner { margin-left:1rem; margin-right:1rem; }
   [data-testid="stHorizontalBlock"] > [data-testid="column"] { flex:1 1 100% !important; width:100% !important; }
   .ps-page-title { font-size:1.9rem; }
   .ps-subtitle { font-size:.92rem; margin-bottom:1.1rem; }

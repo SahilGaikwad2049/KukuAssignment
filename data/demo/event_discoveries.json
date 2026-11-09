@@ -1,0 +1,40 @@
+{
+  "1": [
+    {
+      "event_id": "DEMO_EP001_EV001",
+      "role": "hook",
+      "category": "visual_intrigue",
+      "reason": "An impossible beacon creates an immediate question.",
+      "confidence": 0.82,
+      "narrative_context": "Synthetic demonstration only."
+    },
+    {
+      "event_id": "DEMO_EP001_EV004",
+      "role": "potential_ending",
+      "category": "unanswered_question",
+      "reason": "The question is left unresolved.",
+      "confidence": 0.79,
+      "narrative_context": "Synthetic demonstration only."
+    }
+  ],
+  "2": [
+    {
+      "event_id": "DEMO_EP002_EV002",
+      "role": "hook",
+      "category": "revelation",
+      "reason": "The future date changes the investigation.",
+      "confidence": 0.8,
+      "narrative_context": "Synthetic demonstration only."
+    }
+  ],
+  "3": [
+    {
+      "event_id": "DEMO_EP003_EV003",
+      "role": "hook",
+      "category": "mystery",
+      "reason": "The footprints lead to a sealed door.",
+      "confidence": 0.76,
+      "narrative_context": "Synthetic demonstration only."
+    }
+  ]
+}

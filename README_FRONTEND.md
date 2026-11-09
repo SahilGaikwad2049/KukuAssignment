@@ -12,6 +12,15 @@ streamlit run app.py
 
 Streamlit prints a local URL, usually `http://localhost:8501`. Open that URL in a browser. Use the navigation in the left sidebar. On a narrow screen, Streamlit may collapse the sidebar into its menu button.
 
+### Local mode and hosted demo mode
+
+- **Local mode:** if `data/processed/parsed_all_episodes.json` contains parsed episodes, the frontend loads the local screenplay and output files as before. Real local data takes precedence over demo data.
+- **Hosted/demo mode:** when the parsed episode file is missing or empty, the app automatically loads the small synthetic dataset in `data/demo/` and shows the prominent banner **“DEMO MODE — Illustrative synthetic data. Not actual Kuku screenplay results.”**
+- The demo stories, candidate previews, example assessments, scores, and composite are original illustrative material. They are not Kuku screenplay data, real semantic discoveries, Gemini evaluations, or human approvals. Demo candidate review controls are disabled.
+- Keep `data/demo/` in the deployed repository. Keep `data/input/`, `data/processed/`, `data/outputs/`, `data/cache/`, and `submission/raw_outputs/` out of Git; the local `.gitignore` already excludes them.
+
+For hosted deployment, add the repository to Streamlit Community Cloud (or the chosen Streamlit host) and set the app entry point to `app.py`. Do not upload confidential files or configure an API key just to display the demo. Browsing the demo makes no LLM requests.
+
 The navigation has two groups:
 
 - **Workspace:** Overview, Episode Explorer, Candidate Review, Rankings, Exports.
@@ -19,7 +28,7 @@ The navigation has two groups:
 
 ## 1. Overview
 
-The landing page gives a compact snapshot of the local pipeline:
+The landing page gives a compact snapshot of the active dataset. In local mode it shows local project statistics. In demo mode, every metric is labelled as a demo/example statistic:
 
 - **Episodes:** number of parsed source episodes.
 - **Source events:** parsed dialogue, actions, camera directions, and sound events.

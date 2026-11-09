@@ -1,0 +1,9 @@
+{
+  "synthetic_demo": true,
+  "validation_summary": {
+    "total_errors": 0,
+    "total_warnings": 1,
+    "note": "Illustrative only; not an actual validation run."
+  },
+  "candidates": []
+}

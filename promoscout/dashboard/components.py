@@ -10,6 +10,13 @@ def render_brand(st, *, sidebar: bool = False) -> None:
     st.markdown(markup, unsafe_allow_html=True)
 
 
+def render_demo_banner(st) -> None:
+    st.markdown(
+        '<div class="ps-demo-banner"><strong>DEMO MODE — Illustrative synthetic data. Not actual Kuku screenplay results.</strong></div>',
+        unsafe_allow_html=True,
+    )
+
+
 def render_header(st, title: str, subtitle: str, eyebrow: str = "KUKU · PROMOSCOUT") -> None:
     st.markdown(
         f'<div class="ps-eyebrow">{escape(eyebrow)}</div>'

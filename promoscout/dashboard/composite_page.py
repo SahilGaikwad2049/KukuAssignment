@@ -72,14 +72,18 @@ def composite_promos_page() -> None:
             for warning in candidate.get("coherence_warnings", []):
                 st.warning(f"Human coherence check: {warning}")
             evaluation = evaluations.get(f"composite:{candidate_id}") if isinstance(evaluations, dict) else None
-            _render_blind_viewer_result(st, evaluation)
+            is_demo = data.get("demo_mode", False) or source == "synthetic" or candidate.get("synthetic")
+            _render_blind_viewer_result(st, evaluation, demo=is_demo)
             st.caption(f"Human decision: {decision.get('decision', 'pending').title()}")
-            note = st.text_input("Review note (optional)", key=f"composite-note-{candidate_id}")
-            columns = st.columns(3)
-            for column, value, label in zip(columns, ("approved", "rejected", "later"), ("Approve", "Reject", "Review later")):
-                if column.button(label, key=f"composite-{value}-{candidate_id}", use_container_width=True):
-                    try:
-                        save_review_decision("composite", candidate_id, value, note)
-                        st.rerun()
-                    except ReviewStoreError as exc:
-                        st.error(str(exc))
+            if is_demo:
+                st.info("Synthetic example only. Human review controls are disabled for demo data.")
+            else:
+                note = st.text_input("Review note (optional)", key=f"composite-note-{candidate_id}")
+                columns = st.columns(3)
+                for column, value, label in zip(columns, ("approved", "rejected", "later"), ("Approve", "Reject", "Review later")):
+                    if column.button(label, key=f"composite-{value}-{candidate_id}", use_container_width=True):
+                        try:
+                            save_review_decision("composite", candidate_id, value, note)
+                            st.rerun()
+                        except ReviewStoreError as exc:
+                            st.error(str(exc))

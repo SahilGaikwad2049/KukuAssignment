@@ -1,0 +1,241 @@
+{
+  "synthetic_demo": true,
+  "ranking_interpretation": "Synthetic demo examples only. Scores are placeholders, not Gemini evaluations or real rankings. No human approvals.",
+  "leaderboards": {
+    "continuous": [
+      {
+        "rank": 1,
+        "candidate_id": "DEMO_EP001_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          1
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_001_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      },
+      {
+        "rank": 2,
+        "candidate_id": "DEMO_EP002_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          2
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_002_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      },
+      {
+        "rank": 3,
+        "candidate_id": "DEMO_EP003_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          3
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_003_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      }
+    ],
+    "composite": [
+      {
+        "rank": 1,
+        "candidate_id": "DEMO_COMPOSITE_LIGHTHOUSE_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "composite",
+        "episodes": [
+          1,
+          2
+        ],
+        "duration_seconds": 24.0,
+        "candidate_family_id": "DEMO_COMPOSITE_FAMILY_LIGHTHOUSE",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      }
+    ],
+    "combined": [
+      {
+        "rank": 1,
+        "candidate_id": "DEMO_EP001_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          1
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_001_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      },
+      {
+        "rank": 2,
+        "candidate_id": "DEMO_EP002_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          2
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_002_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      },
+      {
+        "rank": 3,
+        "candidate_id": "DEMO_EP003_PROMO_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "continuous",
+        "episodes": [
+          3
+        ],
+        "duration_seconds": 30.0,
+        "candidate_family_id": "DEMO_FAMILY_003_01",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      },
+      {
+        "rank": 1,
+        "candidate_id": "DEMO_COMPOSITE_LIGHTHOUSE_001",
+        "source_type": "synthetic demo",
+        "candidate_type": "composite",
+        "episodes": [
+          1,
+          2
+        ],
+        "duration_seconds": 24.0,
+        "candidate_family_id": "DEMO_COMPOSITE_FAMILY_LIGHTHOUSE",
+        "dimension_scores": {
+          "standalone_clarity": 4,
+          "hook_effectiveness": 4,
+          "conflict_comprehension": 4,
+          "stakes_clarity": 4,
+          "cliffhanger_effectiveness": 4,
+          "desire_to_continue": 4
+        },
+        "weighted_score": 80,
+        "blind_viewer_verdict": "illustrative",
+        "evaluation_confidence": null,
+        "evaluation_status": "synthetic_example",
+        "structural_validation_status": "illustrative only",
+        "human_decision": "pending (demo)",
+        "reviewer_note": "",
+        "final_selection_eligible": false,
+        "inclusion_or_exclusion_reason": "Synthetic UI demonstration only; not evaluated or approved."
+      }
+    ]
+  },
+  "pending_candidates": [],
+  "failed_evaluations": [],
+  "structurally_ineligible_candidates": []
+}

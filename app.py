@@ -2,7 +2,8 @@
 
 import streamlit as st
 
-from promoscout.dashboard.components import render_brand
+from promoscout.dashboard.components import render_brand, render_demo_banner
+from promoscout.dashboard.data_loader import load_dashboard_data
 from promoscout.dashboard.pages import (
     candidate_review_page,
     episode_explorer_page,
@@ -23,6 +24,9 @@ def main() -> None:
         initial_sidebar_state="expanded",
     )
     inject_styles(st)
+    dashboard_data = load_dashboard_data()
+    if dashboard_data["demo_mode"]:
+        render_demo_banner(st)
     with st.sidebar:
         render_brand(st, sidebar=True)
         st.caption("A local workspace for screenplay intelligence and promo review.")

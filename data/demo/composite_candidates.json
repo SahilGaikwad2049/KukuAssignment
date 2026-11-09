@@ -1,0 +1,131 @@
+{
+  "synthetic_demo": true,
+  "candidate_origin": "synthetic",
+  "candidates": [
+    {
+      "candidate_id": "DEMO_COMPOSITE_LIGHTHOUSE_001",
+      "candidate_family_id": "DEMO_COMPOSITE_FAMILY_LIGHTHOUSE",
+      "candidate_origin": "synthetic",
+      "story_arc_id": "DEMO_LIGHTHOUSE_MYSTERY",
+      "narrative_theme": "A light with no power",
+      "narrative_rationale": "Synthetic example illustrating a progression from impossible signal to warning.",
+      "segments": [
+        {
+          "segment_index": 0,
+          "episode_number": 1,
+          "beat_role": "hook",
+          "anchor_event_ids": [
+            "DEMO_EP001_EV001"
+          ],
+          "source_event_ids": [
+            "DEMO_EP001_EV001",
+            "DEMO_EP001_EV002"
+          ],
+          "source_start_timestamp": "00:00:00.00",
+          "source_end_timestamp": "00:00:12.00",
+          "source_start_seconds": 0.0,
+          "source_end_seconds": 12.0,
+          "duration_seconds": 12.0,
+          "relative_start_seconds": 0.0,
+          "relative_end_seconds": 12.0,
+          "narrative_reason": "The impossible light establishes the mystery.",
+          "spoiler_level": "none",
+          "events": [
+            {
+              "event_id": "DEMO_EP001_EV001",
+              "event_type": "camera",
+              "speaker": null,
+              "delivery": null,
+              "content": "A lighthouse beacon blinks once beneath a clear afternoon sky.",
+              "original_start_timestamp": "00:00:01.00",
+              "original_end_timestamp": "00:00:03.00",
+              "original_start_seconds": 1.0,
+              "original_end_seconds": 3.0,
+              "relative_start_seconds": 1.0,
+              "relative_end_seconds": 3.0
+            },
+            {
+              "event_id": "DEMO_EP001_EV002",
+              "event_type": "dialogue",
+              "speaker": "MIRA",
+              "delivery": "measured",
+              "content": "The power line is cut. That light should be dark.",
+              "original_start_timestamp": "00:00:07.00",
+              "original_end_timestamp": "00:00:10.00",
+              "original_start_seconds": 7.0,
+              "original_end_seconds": 10.0,
+              "relative_start_seconds": 7.0,
+              "relative_end_seconds": 10.0
+            }
+          ]
+        },
+        {
+          "segment_index": 1,
+          "episode_number": 2,
+          "beat_role": "potential_ending",
+          "anchor_event_ids": [
+            "DEMO_EP002_EV004"
+          ],
+          "source_event_ids": [
+            "DEMO_EP002_EV003",
+            "DEMO_EP002_EV004"
+          ],
+          "source_start_timestamp": "00:00:18.00",
+          "source_end_timestamp": "00:00:30.00",
+          "source_start_seconds": 18.0,
+          "source_end_seconds": 30.0,
+          "duration_seconds": 12.0,
+          "relative_start_seconds": 12.0,
+          "relative_end_seconds": 24.0,
+          "narrative_reason": "The warning suggests someone is nearby.",
+          "spoiler_level": "low",
+          "events": [
+            {
+              "event_id": "DEMO_EP002_EV003",
+              "event_type": "sound_fx",
+              "speaker": null,
+              "delivery": null,
+              "content": "A single bell rings from the empty tower.",
+              "original_start_timestamp": "00:00:18.00",
+              "original_end_timestamp": "00:00:20.00",
+              "original_start_seconds": 18.0,
+              "original_end_seconds": 20.0,
+              "relative_start_seconds": 12.0,
+              "relative_end_seconds": 14.0
+            },
+            {
+              "event_id": "DEMO_EP002_EV004",
+              "event_type": "dialogue",
+              "speaker": "JUN",
+              "delivery": "urgent",
+              "content": "Someone is already inside.",
+              "original_start_timestamp": "00:00:27.00",
+              "original_end_timestamp": "00:00:30.00",
+              "original_start_seconds": 27.0,
+              "original_end_seconds": 30.0,
+              "relative_start_seconds": 21.0,
+              "relative_end_seconds": 24.0
+            }
+          ]
+        }
+      ],
+      "total_duration_seconds": 24.0,
+      "hook_segment_index": 0,
+      "hook_event_id": "DEMO_EP001_EV001",
+      "potential_ending_segment_index": 1,
+      "potential_ending_event_id": "DEMO_EP002_EV004",
+      "spoiler_warnings": [
+        "Synthetic warning example; no actual story spoiler."
+      ],
+      "coherence_warnings": [
+        "Synthetic illustrative sequence; not validated as a real story arc."
+      ],
+      "source_event_ids": [
+        "DEMO_EP001_EV001",
+        "DEMO_EP001_EV002",
+        "DEMO_EP002_EV003",
+        "DEMO_EP002_EV004"
+      ]
+    }
+  ]
+}

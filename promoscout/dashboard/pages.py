@@ -83,23 +83,42 @@ def overview_page():
     episodes = data["episodes"]
     total_events = sum(len(episode.events) for episode in episodes)
     decisions = _active_review_decisions(data, review)
-    render_metrics(st, [
-        ("Episodes", len(episodes), "Parsed source scripts"),
-        ("Source events", total_events, "Dialogue, action, camera and sound"),
-        ("Promo candidates", len(data["semantic_candidates"]) + len(data["heuristic_candidates"]), f"{len(data['semantic_candidates'])} semantic · {len(data['heuristic_candidates'])} heuristic"),
-        ("Human reviews", len(decisions), f"{decisions.count('approved')} approved · {decisions.count('rejected')} rejected"),
-    ])
+    if data["demo_mode"]:
+        render_metrics(st, [
+            ("Demo episodes", len(episodes), "Synthetic examples only"),
+            ("Demo events", total_events, "Synthetic source events"),
+            ("Demo candidates", len(data["demo_candidates"]), "Not pipeline output"),
+            ("Sample assessments", len(data["blind_viewer_evaluations"]), "Illustrative, not Gemini results"),
+        ])
+    else:
+        render_metrics(st, [
+            ("Episodes", len(episodes), "Parsed source scripts"),
+            ("Source events", total_events, "Dialogue, action, camera and sound"),
+            ("Promo candidates", len(data["semantic_candidates"]) + len(data["heuristic_candidates"]), f"{len(data['semantic_candidates'])} semantic · {len(data['heuristic_candidates'])} heuristic"),
+            ("Human reviews", len(decisions), f"{decisions.count('approved')} approved · {decisions.count('rejected')} rejected"),
+        ])
     st.subheader("Pipeline status")
-    pipeline = _pipeline_status(data, review)
+    if data["demo_mode"]:
+        pipeline = [
+            ("Source", "Demo", f"{len(episodes)} synthetic episodes"),
+            ("Analysis", "Demo", "Illustrative only"),
+            ("Candidates", "Demo", f"{len(data['demo_candidates'])} examples"),
+            ("Human review", "Demo", "No decisions recorded"),
+        ]
+    else:
+        actual_pipeline = _pipeline_status(data, review)
+        pipeline = [actual_pipeline[index] for index in (0, 1, 3, 5)]
     # A compact status row keeps the landing page scannable; detailed artifacts
     # remain available on the relevant pages.
     markup = '<div class="ps-pipeline-compact">'
-    for name, state, detail in (pipeline[0], pipeline[1], pipeline[3], pipeline[5]):
+    for name, state, detail in pipeline:
         css = "done" if state == "Complete" else "attention" if state == "Needs attention" else "active" if state == "In progress" else ""
         markup += f'<span class="ps-status {css}"><span class="ps-dot"></span><b>{escape(name)}</b> · {escape(state)} · {escape(detail)}</span>'
     markup += "</div>"
     st.markdown(markup, unsafe_allow_html=True)
-    if not data["semantic_candidates"]:
+    if data["demo_mode"]:
+        render_empty_state(st, "Synthetic dataset loaded", "These original sample stories demonstrate the interface only. They are not Kuku screenplay events, semantic discoveries, Gemini evaluations, or human-approved candidates.")
+    elif not data["semantic_candidates"]:
         render_empty_state(st, "Semantic discovery is still pending", "The current candidate set is heuristic. Semantic results will appear here after an episode analysis run.")
     st.caption("Use Candidate Review for clip previews and decisions, or Rankings for validated AI-assisted comparisons. Scores are provisional; human review stays separate.")
 
@@ -107,6 +126,8 @@ def overview_page():
 def episode_explorer_page():
     data = _data()
     render_header(st, "Episode Explorer", "Move through the screenplay one scene and one source event at a time.", "PROMOSCOUT / SOURCE")
+    if data["demo_mode"]:
+        st.caption("Synthetic episode and event examples for interface demonstration.")
     if not data["episodes"]:
         render_empty_state(st, "Parsed screenplay unavailable", "Add a valid parsed_all_episodes.json file under data/processed.")
         return
@@ -142,6 +163,8 @@ def episode_explorer_page():
     if not analysis:
         render_empty_state(st, "No saved analysis for this episode", "Narrative analysis appears here after semantic analysis has completed.")
         return
+    if data["demo_mode"]:
+        st.caption("Synthetic narrative example — not generated from a Kuku episode.")
     st.write(analysis.get("episode_summary", ""))
     summary_fields = [
         ("Important characters", "important_characters"),
@@ -169,13 +192,13 @@ def _candidate_preview(candidate: dict, episode_map: dict[int, Any]) -> list[dic
     if not episode:
         return None
     try:
-        payload = {key: value for key, value in candidate.items() if key != "source"}
+        payload = {key: value for key, value in candidate.items() if key not in {"source", "synthetic"}}
         return reconstruct_candidate_preview(episode, payload)["events"]
     except Exception:
         return None
 
 
-def _render_blind_viewer_result(st, evaluation: dict | None) -> None:
+def _render_blind_viewer_result(st, evaluation: dict | None, *, demo: bool = False) -> None:
     if not isinstance(evaluation, dict):
         st.info("Blind-viewer evaluation is pending. No result has been saved for this candidate.")
         return
@@ -183,6 +206,8 @@ def _render_blind_viewer_result(st, evaluation: dict | None) -> None:
     if not isinstance(assessment, dict):
         st.warning("Saved blind-viewer result has an invalid structure.")
         return
+    if demo or evaluation.get("synthetic_demo"):
+        st.caption("Illustrative assessment only — not an actual Gemini evaluation.")
     score_fields = [
         ("Standalone clarity", "standalone_clarity"),
         ("Hook effectiveness", "hook_effectiveness"),
@@ -233,18 +258,22 @@ def _render_blind_pilot_summary(data: dict) -> None:
         st.caption("No multi-episode blind-viewer pilot report is saved yet.")
         return
     summary = report.get("overall_results", {})
-    with st.expander("Multi-episode blind-viewer pilot", expanded=False):
+    synthetic_report = bool(report.get("synthetic_demo"))
+    with st.expander("Synthetic assessment example" if synthetic_report else "Multi-episode blind-viewer pilot", expanded=False):
+        if synthetic_report:
+            st.caption("Illustrative pilot example only — not actual Gemini evaluation results.")
         render_metrics(st, [
-            ("Selected", summary.get("selected_candidates", 0), "Candidates in manifest"),
-            ("Evaluated", summary.get("successfully_evaluated", 0), "Saved valid results"),
-            ("Failed", summary.get("failed", 0), "Request or validation failures"),
-            ("Episodes", summary.get("episodes_represented", 0), "Distinct episodes in sample"),
+            ("Examples" if synthetic_report else "Selected", summary.get("selected_candidates", 0), "Synthetic rows" if synthetic_report else "Candidates in manifest"),
+            ("Illustrative" if synthetic_report else "Evaluated", summary.get("successfully_evaluated", 0), "Not actual model calls" if synthetic_report else "Saved valid results"),
+            ("Demo status" if synthetic_report else "Failed", "—" if synthetic_report else summary.get("failed", 0), "No failure statistic" if synthetic_report else "Request or validation failures"),
+            ("Demo episodes" if synthetic_report else "Episodes", summary.get("episodes_represented", 0), "Synthetic stories" if synthetic_report else "Distinct episodes in sample"),
         ])
-        st.caption(
+        if not synthetic_report:
+            st.caption(
             f"Source: {report.get('candidate_source', '—')} · Model: {report.get('model_id', '—')} · "
             f"Reused from cache: {summary.get('reused_from_cache', 0)} · "
             f"Episode coverage: {', '.join(map(str, summary.get('episode_numbers', []))) or 'none'}"
-        )
+            )
         dimensions = report.get("score_distributions", {})
         if dimensions:
             rows = [{
@@ -288,12 +317,16 @@ def _render_candidate_card(candidate: dict, episode_map: dict[int, Any], decisio
         with left:
             st.markdown(f"**{cid}** · Episode {candidate.get('episode_number', '—')}")
             st.caption(f"{source.title()} candidate · family {candidate.get('candidate_family_id', '—')}")
+            if source == "demo" or candidate.get("synthetic"):
+                st.caption("SYNTHETIC DEMO EXAMPLE — not a semantic discovery or saved pipeline candidate.")
         with right:
             render_status(st, "Review", review_status.title())
         meta = f"{candidate.get('start_timestamp', '—')} → {candidate.get('end_timestamp', '—')} · {candidate.get('duration_seconds', '—')}s · {candidate.get('hook_type', 'unknown')}"
         st.markdown(f"<div class='ps-meta'>{escape(meta)}</div>", unsafe_allow_html=True)
         score_key = "heuristic_score" if candidate.get("heuristic_score") is not None else "hook_score" if candidate.get("hook_score") is not None else None
-        if score_key:
+        if source == "demo":
+            st.caption("Illustrative sample scores only; no candidate-scoring pipeline ran.")
+        elif score_key:
             st.caption(f"Existing {score_key.replace('_', ' ')}: {candidate[score_key]} · pipeline signal, not a quality judgment")
         st.markdown(f"<div class='ps-hook'><b>Hook</b><br>{escape(str(candidate.get('hook_text', '')))}<div class='ps-meta'>Event {escape(str(candidate.get('hook_event_id', '—')))}</div></div>", unsafe_allow_html=True)
         st.markdown(f"<div class='ps-ending'><b>Potential ending</b> <span class='ps-meta'>· not a confirmed cliffhanger</span><br>{escape(str(candidate.get('ending_text', '')))}<div class='ps-meta'>Event {escape(str(candidate.get('ending_event_id', '—')))}</div></div>", unsafe_allow_html=True)
@@ -311,6 +344,7 @@ def _render_candidate_card(candidate: dict, episode_map: dict[int, Any], decisio
             _render_blind_viewer_result(
                 st,
                 blind_evaluations.get(review_key(source, cid)),
+                demo=source == "demo",
             )
         if source in {"semantic", "heuristic"}:
             if review_error:
@@ -367,11 +401,17 @@ def candidate_review_page():
     data = _data()
     render_header(st, "Candidate Review", "Inspect source-grounded windows, rebuild their screenplay previews, and record human decisions.", "PROMOSCOUT / REVIEW DESK")
     _render_blind_pilot_summary(data)
-    source_choice = st.radio("Candidate source", ["Both", "Semantic", "Heuristic"], horizontal=True)
+    sources = ["Both", "Semantic", "Heuristic"] + (["Demo examples"] if data["demo_mode"] else [])
+    source_choice = st.radio("Candidate source", sources, horizontal=True)
     candidates = data["semantic_candidates"] + data["heuristic_candidates"]
+    if data["demo_mode"]:
+        candidates += data["demo_candidates"]
     if source_choice != "Both":
-        candidates = [row for row in candidates if row["source"] == source_choice.lower()]
-    if not data["semantic_candidates"]:
+        source_filter = "demo" if source_choice == "Demo examples" else source_choice.lower()
+        candidates = [row for row in candidates if row["source"] == source_filter]
+    if data["demo_mode"]:
+        st.info("Only synthetic candidate examples are shown. Demo examples cannot be approved or saved as human decisions.")
+    elif not data["semantic_candidates"]:
         st.info("Semantic candidates are not available yet. Heuristic candidates are shown separately and are not semantic discoveries.")
     if not candidates:
         render_empty_state(st, "No candidates to review", "Generate semantic candidates or switch to the heuristic source to inspect existing candidates.")
@@ -396,7 +436,12 @@ def candidate_review_page():
 
 def rankings_page():
     data = _data()
-    render_header(st, "Rankings", "Provisional rankings only for candidates with validated source structure and blind-viewer evidence.", "PROMOSCOUT / SIGNALS")
+    demo_mode = data.get("demo_mode", False)
+    title = "Example rankings" if demo_mode else "Rankings"
+    subtitle = ("Illustrative rows showing the ranking layout; these are not scored by Gemini or validated as real promos."
+                if demo_mode else
+                "Provisional rankings only for candidates with validated source structure and blind-viewer evidence.")
+    render_header(st, title, subtitle, "PROMOSCOUT / SIGNALS")
     report = data.get("final_rankings")
     if not isinstance(report, dict):
         render_empty_state(st, "Final rankings have not been generated", "Run `python -m promoscout.ranking.final_ranker` to validate local candidates and build the separate continuous, composite, and combined leaderboards.")
@@ -408,6 +453,8 @@ def rankings_page():
         ("Failed", len(report.get("failed_evaluations", [])), "Excluded from ranking"),
         ("Structural failures", len(report.get("structurally_ineligible_candidates", [])), "Excluded from ranking"),
     ]
+    if demo_mode:
+        st.info("SYNTHETIC RANKING EXAMPLES — scores and assessments are illustrative UI data, not actual Gemini outputs, real pipeline rankings, or human approvals.")
     render_metrics(st, stats)
     st.info(report.get("ranking_interpretation", "AI-assisted provisional ranking; human review remains separate."))
     tabs = st.tabs(["Continuous", "Composite", "Combined"])
@@ -422,7 +469,7 @@ def rankings_page():
                     title_columns = st.columns([.5, 3, 1.2])
                     title_columns[0].markdown(f"**{row['rank']:02d}**")
                     title_columns[1].markdown(f"**{row['candidate_id']}** · {row['source_type'].title()} · Episodes {', '.join(map(str, row['episodes']))}")
-                    title_columns[2].metric("Provisional / 100", row["weighted_score"])
+                    title_columns[2].metric("Example / 100" if demo_mode else "Provisional / 100", row["weighted_score"])
                     st.caption(f"{row['duration_seconds']}s · {row['blind_viewer_verdict']} · Structural: {row['structural_validation_status']} · Human: {row['human_decision']} · {'Approved' if row['final_selection_eligible'] else 'Not approved for final selection'}")
                     score_items = list(row["dimension_scores"].items())
                     for offset in range(0, len(score_items), 3):
@@ -455,10 +502,16 @@ def _download_pair(st, label: str, rows: list[dict], key: str):
 def exports_page():
     data = _data()
     render_header(st, "Exports", "Download local pipeline artifacts and human-approved decisions for the next production step.", "PROMOSCOUT / OUTPUTS")
-    st.subheader("Candidate exports")
-    _download_pair(st, "semantic candidates", data["semantic_candidates"], "semantic_candidates")
-    _download_pair(st, "heuristic candidates", data["heuristic_candidates"], "heuristic_candidates")
-    _download_pair(st, "composite candidates", data.get("composite_candidates", []), "composite_candidates")
+    if data.get("demo_mode", False):
+        st.subheader("Synthetic demonstration exports")
+        st.caption("These downloadable records are original illustrative examples only. They are not actual semantic candidates, heuristic pipeline output, Gemini evaluations, or approved promos.")
+        _download_pair(st, "synthetic demo candidates", data["demo_candidates"], "demo_candidates")
+        _download_pair(st, "synthetic composite demo", data.get("composite_candidates", []), "synthetic_composite_demo")
+    else:
+        st.subheader("Candidate exports")
+        _download_pair(st, "semantic candidates", data["semantic_candidates"], "semantic_candidates")
+        _download_pair(st, "heuristic candidates", data["heuristic_candidates"], "heuristic_candidates")
+        _download_pair(st, "composite candidates", data.get("composite_candidates", []), "composite_candidates")
     review, review_error = _review_state()
     if review_error:
         st.error(review_error)
@@ -470,32 +523,42 @@ def exports_page():
         key = review_key(row["source"], row["candidate_id"])
         if review.get("decisions", {}).get(key, {}).get("decision") == "approved":
             approved.append(row)
-    _download_pair(st, "approved candidates", approved, "approved_candidates")
+    if not data.get("demo_mode", False):
+        _download_pair(st, "approved candidates", approved, "approved_candidates")
+    else:
+        st.info("No synthetic example is marked human-approved. Demo mode does not write review decisions.")
     section_divider(st)
     st.subheader("Review and validation")
     decisions_payload = review if not review_error else {"schema_version": "promo-review-decisions-v1", "decisions": {}}
-    st.download_button("Download review decisions JSON", json_export_bytes(decisions_payload), "review_decisions.json", "application/json", key="download-review-decisions", use_container_width=True)
+    if data["demo_mode"]:
+        st.caption("Demo mode does not load or create human review decisions for synthetic examples.")
+    else:
+        st.download_button("Download review decisions JSON", json_export_bytes(decisions_payload), "review_decisions.json", "application/json", key="download-review-decisions", use_container_width=True)
     validation_file = data["files"]["validation"]
     validation_md_file = data["files"]["validation_markdown"]
     c1, c2 = st.columns(2)
     if validation_file["data"] is not None:
-        c1.download_button("Download pilot validation JSON", json_export_bytes(validation_file["data"]), "pilot_validation.json", "application/json", key="download-validation-json", use_container_width=True)
+        label = "Download synthetic validation example JSON" if data.get("demo_mode", False) else "Download pilot validation JSON"
+        c1.download_button(label, json_export_bytes(validation_file["data"]), "pilot_validation.json", "application/json", key="download-validation-json", use_container_width=True)
     else:
         c1.button("Pilot validation JSON unavailable", disabled=True, use_container_width=True)
     if validation_md_file["data"] is not None:
-        c2.download_button("Download pilot validation Markdown", validation_md_file["data"], "pilot_validation.md", "text/markdown", key="download-validation-md", use_container_width=True)
+        label = "Download synthetic validation example Markdown" if data.get("demo_mode", False) else "Download pilot validation Markdown"
+        c2.download_button(label, validation_md_file["data"], "pilot_validation.md", "text/markdown", key="download-validation-md", use_container_width=True)
     else:
         c2.button("Pilot validation Markdown unavailable", disabled=True, use_container_width=True)
     pilot_report = data["files"].get("blind_viewer_pilot_report", {}).get("data")
     pilot_report_md = data["files"].get("blind_viewer_pilot_report_markdown", {}).get("data")
     pilot_selection = data["files"].get("blind_viewer_pilot_selection", {}).get("data")
     if pilot_report is not None or pilot_report_md is not None:
-        st.subheader("Blind-viewer pilot")
+        st.subheader("Synthetic assessment example" if data.get("demo_mode", False) else "Blind-viewer pilot")
         c3, c4 = st.columns(2)
         if pilot_report is not None:
-            c3.download_button("Download blind-viewer pilot JSON", json_export_bytes(pilot_report), "blind_viewer_pilot_report.json", "application/json", key="download-blind-pilot-json", use_container_width=True)
+            label = "Download synthetic assessment example JSON" if data.get("demo_mode", False) else "Download blind-viewer pilot JSON"
+            c3.download_button(label, json_export_bytes(pilot_report), "blind_viewer_pilot_report.json", "application/json", key="download-blind-pilot-json", use_container_width=True)
         if pilot_report_md is not None:
-            c4.download_button("Download blind-viewer pilot Markdown", pilot_report_md, "blind_viewer_pilot_report.md", "text/markdown", key="download-blind-pilot-md", use_container_width=True)
+            label = "Download synthetic assessment example Markdown" if data.get("demo_mode", False) else "Download blind-viewer pilot Markdown"
+            c4.download_button(label, pilot_report_md, "blind_viewer_pilot_report.md", "text/markdown", key="download-blind-pilot-md", use_container_width=True)
     if pilot_selection is not None:
         st.download_button("Download pilot selection manifest", json_export_bytes(pilot_selection), "blind_viewer_pilot_selection.json", "application/json", key="download-blind-pilot-selection", use_container_width=True)
     comparison = data["files"].get("discovery_comparison", {}).get("data")
@@ -510,18 +573,21 @@ def exports_page():
     ranking_json = data["files"].get("final_rankings", {}).get("data")
     ranking_csv = data["files"].get("final_rankings_csv", {}).get("data")
     ranking_report = data["files"].get("final_ranking_report", {}).get("data")
-    st.subheader("Final provisional rankings")
+    st.subheader("Synthetic ranking examples" if data.get("demo_mode", False) else "Final provisional rankings")
     r1, r2, r3 = st.columns(3)
     if ranking_json is not None:
-        r1.download_button("Download final rankings JSON", json_export_bytes(ranking_json), "final_rankings.json", "application/json", key="download-final-rankings-json", use_container_width=True)
+        label = "Download synthetic ranking examples JSON" if data.get("demo_mode", False) else "Download final rankings JSON"
+        r1.download_button(label, json_export_bytes(ranking_json), "final_rankings.json", "application/json", key="download-final-rankings-json", use_container_width=True)
     else:
         r1.button("Final rankings JSON unavailable", disabled=True, use_container_width=True)
     if ranking_csv is not None:
-        r2.download_button("Download final rankings CSV", ranking_csv, "final_rankings.csv", "text/csv", key="download-final-rankings-csv", use_container_width=True)
+        label = "Download synthetic ranking examples CSV" if data.get("demo_mode", False) else "Download final rankings CSV"
+        r2.download_button(label, ranking_csv, "final_rankings.csv", "text/csv", key="download-final-rankings-csv", use_container_width=True)
     else:
         r2.button("Final rankings CSV unavailable", disabled=True, use_container_width=True)
     if ranking_report is not None:
-        r3.download_button("Download ranking report Markdown", ranking_report, "final_ranking_report.md", "text/markdown", key="download-final-ranking-report", use_container_width=True)
+        label = "Download synthetic ranking example report" if data.get("demo_mode", False) else "Download ranking report Markdown"
+        r3.download_button(label, ranking_report, "final_ranking_report.md", "text/markdown", key="download-final-ranking-report", use_container_width=True)
     else:
         r3.button("Ranking report unavailable", disabled=True, use_container_width=True)
     st.caption("Exports use only local files. Missing artifacts remain empty/unavailable; no data is generated for export.")

@@ -1,0 +1,80 @@
+{
+  "1": {
+    "episode_summary": "Two lighthouse caretakers find signs that the beacon is operating without power.",
+    "important_characters": [
+      "Mira",
+      "Jun"
+    ],
+    "character_relationships": [
+      "Mira and Jun share responsibility for the lighthouse; their trust is being tested."
+    ],
+    "main_conflict": "The caretakers are trying to explain an impossible beacon and an unknown visitor.",
+    "important_story_developments": [
+      "A brass key appears in the sand."
+    ],
+    "major_revelations": [],
+    "emotional_turning_points": [
+      "Jun questions who wound the mechanism."
+    ],
+    "unresolved_questions": [
+      "Who activated the beacon?"
+    ],
+    "narrative_progression": [
+      "An unexplained signal leads to a physical clue and a new question."
+    ],
+    "episode_number": 1
+  },
+  "2": {
+    "episode_summary": "The key opens a drawer containing a map dated one day in the future.",
+    "important_characters": [
+      "Mira",
+      "Jun"
+    ],
+    "character_relationships": [
+      "The pair investigate together, though Jun becomes more worried."
+    ],
+    "main_conflict": "They need to determine who left the map and whether someone is in the tower.",
+    "important_story_developments": [
+      "A hidden drawer opens.",
+      "A bell rings in an empty tower."
+    ],
+    "major_revelations": [
+      "The map appears to be dated tomorrow."
+    ],
+    "emotional_turning_points": [
+      "Jun warns that someone is inside."
+    ],
+    "unresolved_questions": [
+      "Who entered the tower?"
+    ],
+    "narrative_progression": [
+      "A clue deepens the mystery and implies a nearby presence."
+    ],
+    "episode_number": 2
+  },
+  "3": {
+    "episode_summary": "Fresh footprints end at a sealed door in the lighthouse.",
+    "important_characters": [
+      "Mira",
+      "Jun"
+    ],
+    "character_relationships": [
+      "Mira and Jun continue investigating as a team."
+    ],
+    "main_conflict": "They must decide whether to open the door.",
+    "important_story_developments": [
+      "Fresh prints lead to a locked door."
+    ],
+    "major_revelations": [],
+    "emotional_turning_points": [
+      "Mira notices the prints stop abruptly."
+    ],
+    "unresolved_questions": [
+      "What is behind the door?"
+    ],
+    "narrative_progression": [
+      "The search reaches a physical barrier and an unresolved question."
+    ],
+    "episode_number": 3
+  }
+}

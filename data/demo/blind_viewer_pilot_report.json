@@ -1,0 +1,10 @@
+{
+  "synthetic_demo": true,
+  "overall_results": {
+    "selected_candidates": 3,
+    "successfully_evaluated": 3,
+    "failed": 0,
+    "episodes_represented": 3
+  },
+  "note": "Illustrative summary only; no Gemini requests were made."
+}

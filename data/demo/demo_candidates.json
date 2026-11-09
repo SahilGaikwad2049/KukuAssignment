@@ -1,0 +1,120 @@
+{
+  "schema_version": "promoscout-synthetic-demo-v1",
+  "synthetic_demo": true,
+  "candidates": [
+    {
+      "candidate_id": "DEMO_EP001_PROMO_001",
+      "candidate_family_id": "DEMO_FAMILY_001_01",
+      "episode_number": 1,
+      "start_event_id": "DEMO_EP001_EV001",
+      "end_event_id": "DEMO_EP001_EV004",
+      "start_timestamp": "00:00:00.00",
+      "end_timestamp": "00:00:30.00",
+      "start_seconds": 0.0,
+      "end_seconds": 30.0,
+      "duration_seconds": 30.0,
+      "hook_event_id": "DEMO_EP001_EV001",
+      "hook_type": "visual_intrigue",
+      "hook_text": "A lighthouse beacon blinks once beneath a clear afternoon sky.",
+      "hook_start_timestamp": "00:00:01.00",
+      "hook_end_timestamp": "00:00:03.00",
+      "hook_start_seconds": 1.0,
+      "hook_end_seconds": 3.0,
+      "hook_offset_seconds": 1.0,
+      "ending_event_id": "DEMO_EP001_EV004",
+      "ending_text": "Then who wound the clock?",
+      "hook_score": 0.9,
+      "ending_score": 0.7,
+      "heuristic_score": 0.8,
+      "hook_signals": [
+        "synthetic_demo_signal"
+      ],
+      "ending_signals": [
+        "synthetic_demo_signal"
+      ],
+      "included_event_ids": [
+        "DEMO_EP001_EV001",
+        "DEMO_EP001_EV002",
+        "DEMO_EP001_EV003",
+        "DEMO_EP001_EV004"
+      ],
+      "synthetic": true
+    },
+    {
+      "candidate_id": "DEMO_EP002_PROMO_001",
+      "candidate_family_id": "DEMO_FAMILY_002_01",
+      "episode_number": 2,
+      "start_event_id": "DEMO_EP002_EV001",
+      "end_event_id": "DEMO_EP002_EV004",
+      "start_timestamp": "00:00:00.00",
+      "end_timestamp": "00:00:30.00",
+      "start_seconds": 0.0,
+      "end_seconds": 30.0,
+      "duration_seconds": 30.0,
+      "hook_event_id": "DEMO_EP002_EV002",
+      "hook_type": "revelation",
+      "hook_text": "This map is dated tomorrow.",
+      "hook_start_timestamp": "00:00:09.00",
+      "hook_end_timestamp": "00:00:13.00",
+      "hook_start_seconds": 9.0,
+      "hook_end_seconds": 13.0,
+      "hook_offset_seconds": 9.0,
+      "ending_event_id": "DEMO_EP002_EV004",
+      "ending_text": "Someone is already inside.",
+      "hook_score": 0.9,
+      "ending_score": 0.7,
+      "heuristic_score": 0.8,
+      "hook_signals": [
+        "synthetic_demo_signal"
+      ],
+      "ending_signals": [
+        "synthetic_demo_signal"
+      ],
+      "included_event_ids": [
+        "DEMO_EP002_EV001",
+        "DEMO_EP002_EV002",
+        "DEMO_EP002_EV003",
+        "DEMO_EP002_EV004"
+      ],
+      "synthetic": true
+    },
+    {
+      "candidate_id": "DEMO_EP003_PROMO_001",
+      "candidate_family_id": "DEMO_FAMILY_003_01",
+      "episode_number": 3,
+      "start_event_id": "DEMO_EP003_EV001",
+      "end_event_id": "DEMO_EP003_EV004",
+      "start_timestamp": "00:00:00.00",
+      "end_timestamp": "00:00:30.00",
+      "start_seconds": 0.0,
+      "end_seconds": 30.0,
+      "duration_seconds": 30.0,
+      "hook_event_id": "DEMO_EP003_EV003",
+      "hook_type": "revelation",
+      "hook_text": "Mira finds fresh footprints leading toward the locked door.",
+      "hook_start_timestamp": "00:00:17.00",
+      "hook_end_timestamp": "00:00:20.00",
+      "hook_start_seconds": 17.0,
+      "hook_end_seconds": 20.0,
+      "hook_offset_seconds": 17.0,
+      "ending_event_id": "DEMO_EP003_EV004",
+      "ending_text": "The prints stop here.",
+      "hook_score": 0.9,
+      "ending_score": 0.7,
+      "heuristic_score": 0.8,
+      "hook_signals": [
+        "synthetic_demo_signal"
+      ],
+      "ending_signals": [
+        "synthetic_demo_signal"
+      ],
+      "included_event_ids": [
+        "DEMO_EP003_EV001",
+        "DEMO_EP003_EV002",
+        "DEMO_EP003_EV003",
+        "DEMO_EP003_EV004"
+      ],
+      "synthetic": true
+    }
+  ]
+}
