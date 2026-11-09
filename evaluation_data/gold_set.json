@@ -1,0 +1,19 @@
+{
+  "schema_version": "promo-gold-set-v1",
+  "instructions": "Manually add reviewed examples to entries. Do not treat entry_template as a real review. Use source event IDs and timestamps from parsed screenplay data.",
+  "entries": [],
+  "entry_template": {
+    "template_only": true,
+    "episode_number": null,
+    "start_timestamp": null,
+    "end_timestamp": null,
+    "source_event_ids": [],
+    "human_assessment": {
+      "hook_quality": null,
+      "standalone_clarity": null,
+      "cliffhanger_quality": null
+    },
+    "overall_human_judgment": null,
+    "reasoning_comments": ""
+  }
+}

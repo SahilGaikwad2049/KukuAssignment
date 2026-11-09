@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environment
+.venv/
+
+# API credentials
+.env
+
+# Input pack
+data/input/*
+
+# Generated data
+data/processed/*
+data/outputs/*
+data/workspaces/
+
+# Keep folder structure
+!data/processed/.gitkeep
+!data/outputs/.gitkeep
+
+# VS Code
+.vscode/
+# Cached LLM responses and derived screenplay content
+data/cache/
+submission/raw_outputs/
